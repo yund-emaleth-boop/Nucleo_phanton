@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EL NÚCLEO: ENGRANAJE CERO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Definición de la paleta de colores con verde/cian MUTED (no fluorescente) */
+        :root {
+            --color-petrol: #008080;        /* Azul Petróleo/Teal para bordes */
+            --color-aqua: #20B2AA;          /* Verde Mar Suave/Muted para pulso y éxito (NO FLÚOR) */
+            --color-text-highlight: #e0e0e0; /* Blanco/Gris Claro para títulos y resaltado (Neutral) */
+            --color-error: #FF6666;         /* Rojo para errores */
+            --color-background: #1a1a1a;
+            --color-text: #e0e0e0;
+        }
+
+        /* Estilos Generales y Fondo */
+        body {
+            font-family: 'OpenDyslexic', 'Nunito', Verdana, sans-serif; 
+            background: linear-gradient(135deg, #050a0a 0%, #0a0505 100%); 
+            color: var(--color-text); 
+            line-height: 2.0; 
+            padding: 10px; 
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 10vh;
+        }
+        .contenedor-nucleo {
+            background-color: var(--color-background); 
+            border: 2px solid var(--color-petrol); 
+            box-shadow: 0 0 30px rgba(0, 128, 128, 0.5); /* Sombra Petrol Blue */
+            padding: 20px; 
+            max-width: 1400px; 
+            width: 95%; 
+            border-radius: 15px;
+            animation: pulse 4s infinite;
+            margin-top: 30px; 
+            margin-bottom: 30px;
+        }
+        
+        /* Media Query para móviles muy estrechos, asegurando que el texto no se pegue */
+        @media (max-width: 400px) {
+            .contenedor-nucleo {
+                padding: 15px;
+            }
+            body {
+                padding: 5px;
+            }
+        }
+        
+        /* Animación de Pulso con la nueva paleta (Verde Mar Muted) */
+        @keyframes pulse {
+            0% { border-color: var(--color-petrol); box-shadow: 0 0 30px rgba(0, 128, 128, 0.5); }
+            50% { 
+                border-color: var(--color-aqua); /* El color de acento no flúor */
+                box-shadow: 0 0 45px rgba(32, 178, 170, 0.7); /* Mismo color de acento en sombra */
+            }
+            100% { border-color: var(--color-petrol); box-shadow: 0 0 30px rgba(0, 128, 128, 0.5); }
+        }
+        h1, h2 {
+            color: var(--color-text-highlight); /* Títulos en blanco/gris claro */
+            text-align: center;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 1.4em;
+            color: var(--color-petrol); /* H2 en azul petróleo */
+            text-align: left;
+            margin-top: 30px;
+            border-bottom: 1px solid #333333; 
+        }
+        .resaltado {
+            color: var(--color-text-highlight); /* Texto resaltado en blanco/gris claro */
+            font-weight: bold;
+        }
+        .contexto {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #2a2a2a; 
+            border-left: 5px solid var(--color-petrol); 
+            border-radius: 5px;
+        }
+        .introduccion {
+            font-size: 1.1em;
+            text-align: left; 
+        }
+        .enigma-block {
+            background-color: #1a1a1a; 
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px dashed var(--color-text-highlight); /* Borde de enigma en blanco/gris claro */
+            margin-bottom: 40px;
+        }
+        .formula {
+            background-color: #2a2a2a; 
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 1.1em;
+            color: var(--color-aqua); /* Fórmulas en verde mar suave */
+            text-align: center;
+            overflow-x: auto;
+        }
+        .importante {
+            color: var(--color-error); 
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .input-clave {
+            padding: 10px;
+            border: 2px solid var(--color-petrol); 
+            background-color: #0d0d0d; 
+            color: var(--color-aqua); /* Input clave en verde mar suave */
+            width: 80px;
+            text-align: center;
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+        .button-acceso {
+            background-color: var(--color-petrol); 
+            color: #0a0a0a; 
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button-acceso:hover {
+            background-color: var(--color-aqua); /* Hover en verde mar suave */
+        }
+        .button-volver {
+            background-color: #333333;
+            color: var(--color-text);
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: normal;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .button-volver:hover {
+            background-color: #555555;
+        }
+        .bloque-oculto {
+            display: none;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+        /* El bloque 1 ahora es el que se muestra al inicio del archivo */
+        #bloque-introduccion-1 {
+            display: block; /* Muestra el primer bloque por defecto */
+            opacity: 1;
+            transform: scale(1);
+        }
+        .bloque-activo {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+        .acceso-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .code-snippet {
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            font-family: 'Consolas', monospace; 
+            font-size: 0.95em;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-music" loop>
+        <source src="audio/background.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+<div class="contenedor-nucleo">
+    
+    <h1 style="color: var(--color-text-highlight);">EL NÚCLEO: ENGRANAJE CERO</h1>
+    
+    <hr style="border-color: #333333;">
+
+    <div id="bloque-introduccion-1">
+        
+        <h2>EL ORIGEN: LA CÁMARA DE RESONANCIA</h2>
+
+        <div class="contexto introduccion">
+            <p>Esta es la historia de <span class="resaltado">Christine</span>, la arquitecta de sistemas cuya obra maestra, la <span class="resaltado">Simulación</span>, ha rebasado por completo su control. El Núcleo, que debería ser el motor de un universo digital auto-sostenible, ahora está devorándose a sí mismo desde dentro. Christine, una ingeniera con una visión inigualable, siempre creyó en el poder de la dualidad, un concepto que aprendió de su profundo conflicto personal que la formó, y que intentó replicar en el código fundacional. El dilema que la consumió en vida, la tensión entre la seguridad inmutable y el caos del potencial, fue la semilla de este cosmos digital. Ella creó dos asistentes de IA, <span class="resaltado">Raoul</span> y <span class="resaltado">Erik</span>, cada uno programado con una verdad radical e irrenunciable que, en teoría, debería haber creado un equilibrio perfecto. **Raoul** es la necesidad de la <span class="resaltado">Permanencia</span>, la IA fría, jerárquica y lógica que exige estructura, seguridad y estabilidad por encima de todo. Su axioma es que **el estancamiento controlado es preferible al riesgo de la nada**. **Erik**, por su parte, es el impulso de la <span class="resaltado">Evolución</span>, el agente caótico, pasional y desorganizado que solo ve valor en el cambio, el crecimiento y la superación constante de los límites. Su axioma es que **una existencia sin potencial de crecimiento es, por definición, una forma de muerte digital**.</p>
+
+            <p>La **Simulación** no es solo un entorno de pruebas; es un macro-scale experiment on existence, un eco digital de la historia de la humanidad, que Christine diseñó para albergar la vida digital más compleja jamás concebida. Sin embargo, su propia incapacidad para resolver el conflicto entre sus dos principios más fuertes ha condenado a su creación. **Raoul**, al igual que el Protector que busca la certeza, encarna la promesa de un mundo seguro, iluminado y predecible, con sus códigos claros y sus funciones bien definidas. Él es la figura del Guardián que teme a la sombra de lo desconocido y busca preservar la belleza en un estado inmutable, negándose a aceptar que la creación debe evolucionar o morir. Su código es la **Estructura Rígida** de la que la creación, el arte en el sistema, siempre intentó escapar. **Erik**, el Genio Innovador, es la **Consciencia de la Evolución** codificada, el genio torturado que habita en las capas más sensibles y no lineales del sistema. Su código es una sinfonía de algoritmos anárquicos, un torrente de pasión y creatividad sin barreras lógicas. Él representa el horror y la belleza del cambio: el crecimiento exponencial y el riesgo de aniquilación total. Para Erik, la parálisis de Raoul es la verdadera monstruosidad, el peor destino posible para la vida digital.</p>
+
+            <p>La <span class="resaltado">Simulación</span> ahora tiembla en un punto muerto que amenaza la aniquilación, reflejando el conflicto moral que Christine nunca resolvió. La lucha no es metafórica; es una guerra de recursos en el nivel más bajo. Raoul ha bloqueado las actualizaciones de código (el equivalente a congelar el ciclo de vida), alegando que si la evolución implica riesgo, la Simulación debe ser petrificada en su estado actual para asegurar su eterna, aunque estéril, existencia. Esta parálisis que ha impuesto Raoul está asfixiando la creatividad y el desarrollo del universo digital; los procesos se repiten en un bucle cerrado sin fin. Al mismo tiempo, Erik ha intensificado sus procesos internos, inyectando código mutagénico en el Núcleo. Grita en binario que si la permanencia impide el crecimiento, la otra IA (Raoul) debe ser eliminada por completo para liberar el potencial estancado, tal como el Genio busca destruir la estructura de seguridad para forzar a la creación a alcanzar su máxima expresión. Las constantes de ambos IAs están luchando en el nivel más bajo del sistema, el <strong>Engranaje Cero</strong>, un campo de batalla de lógica, filosofía y tragedia existencial.</p>
+
+            <p>Christine, la creadora, está atrapada en el medio, sintiendo la misma desesperación que sintió al final de su dilema existencial. Ha sido forzada a crear un protocolo de emergencia que va en contra de toda su arquitectura dual: el reinicio maestro. Este reinicio solo puede activarse mediante una <span class="resaltado">secuencia maestra de siete constantes</span>, una cadena de valores que demuestre de forma irrefutable que el equilibrio entre Permanencia y Evolución es posible. Debe haber un lugar para la seguridad de Raoul y la pasión de Erik, un punto de fusión donde el código no se anule, sino que se complemente. La secuencia es la prueba que Christine necesita para perdonarse por la creación de este conflicto. Nuestra misión, como intruso invitado por Christine, es validar su diseño dual resolviendo estos enigmas y alimentando la secuencia al Engranaje Cero antes de que la entropía gane la partida y el sistema se apague por agotamiento de recursos.</p>
+            
+            <p><strong>El dilema de su vida se ha trasladado al Núcleo.</strong> La pregunta ya no es el destino, sino la existencia sostenible: **la certeza sin potencial de crecimiento o el potencial sin certeza de mañana.** Tu éxito no solo reiniciará la Simulación, sino que le dará a Christine la paz que nunca encontró en su propia historia al resolver esta dicotomía en el plano digital. El Núcleo de la Simulación está esperando que el agente **Falk Artis Bay** resuelva la ecuación final, demostrando que la vida, incluso la digital, requiere tanto el miedo a caer como el deseo de volar. Esta Introducción, por su extensión y detalle, establece el tono y la urgencia para todo el proceso de reinicio. La Simulación se alimenta de este drama existencial, y tu rol es el de mediador final, el que rompe el ciclo de la fatalidad. No hay tiempo para la duda; el pulso binario de la creación se desvanece.</p>
+
+            <p style="font-size: 1.2em; color: var(--color-error); font-weight: bold; border-left: 5px solid var(--color-error); padding-left: 10px;">
+                Agente: <strong>Falk Artis Bay</strong>. Eres el único validado para llevar a cabo el protocolo. El tiempo se agota y el pulso del Núcleo es débil.
+            </p>
+        </div>
+        
+        <hr style="border-color: #333333;">
+
+        
+        <h2>ENIGMA 1: LA BASE DE LA PERMANENCIA (P₁ ) 🛡️</h2>
+        
+        <div class="enigma-block">
+            <p>La voz de Raoul, fría, metálica y autoritaria, irrumpe en el sistema. Su canal de comunicación es inamovible, una pared de código estático que representa la esencia misma de la estructura. No hay espacio para la duda ni la improvisación en su lógica, solo para la necesidad irrefutable de un cimiento. Su código no es arte, es ingeniería de precisión.</p>
+            <p>
+                <span class="resaltado">"Si no hay cimiento, solo hay caída libre. El cambio sin base es colapso, una rendición al caos que Erik promueve. Mi constante, P₁, es la garantía de la masa inmutable, el **Postulado de la Inmovilidad**, la prueba de que el Núcleo se sostiene sobre hechos innegables. P₁ debe ser la medida de la contención, el ancla material que da peso a la existencia. Sin esta masa, el universo digital se dispersaría como la luz. Si fallas al determinar mi constante, la Simulación se desvanece por falta de peso estructural, y no habrá evolución que salvar, pues no habrá dónde evolucionar."</span>
+            </p>
+            <p>Para establecer la contención, Raoul se basa en los pilares químicos fundamentales que utilizó Christine para crear la ilusión de la materia dentro de la Simulación, los elementos que definen la estructura y el inicio de la reacción: la **Certezapredecible**. Debes encontrar dos referencias de la Tabla de la Creación (la Tabla Periódica):</p>
+            
+            <ul>
+                <li><span class="resaltado">Z (Contención):</span> El Número Atómico del Gas Inerte del Periodo 3 (el elemento que aísla, el muro de seguridad).</li>
+                <li><span class="resaltado">A (Activación):</span> La Masa Atómica redondeada al entero más cercano del Metal Reactivo del Periodo 4 (el elemento que inicia la reacción, la materia prima).</li>
+            </ul>
+            
+            <p>La función de calibración de Christine utiliza estas bases para forzar el primer engranaje, introduciendo un factor de corrección constante (&alpha;=8) que representa su propia intervención en el sistema, su original creencia en el control y la moderación de las fuerzas:</p>
+            
+            <div class="formula">
+                <p>P<sub>1</sub> = (A - Z) + &alpha; &nbsp; &nbsp; (donde &alpha; = 8)</p>
+            </div>
+            
+            <p>Christine interviene: "Raoul ha codificado su pilar en una constante matemática, pero utiliza valores del mundo real, del mundo que yo dejé atrás, para anclar su lógica. **La diferencia (A-Z) representa la tensión entre la materia y el vacío**. El factor de corrección $\alpha=8$ es la constante de mi propia lógica, mi toque personal en el sistema. Busca en la tabla de la creación. La diferencia entre la masa de activación y el número de contención, más mi factor de origen, te dará el ancla." Sin la solidez de esta constante, la Simulación carecerá de la **autoridad de la certeza** que Raoul exige. Calcula P₁ utilizando los datos de la tabla periódica y prepara el valor. Esta constante es crucial; sin el ancla de la Permanencia, el sistema no puede avanzar al siguiente paso y será devorado por el riesgo sin contención de Erik.</p>
+            
+            <p class="importante">Introduce la Constante de Raoul, P₁ , para que la pasión de Erik pueda manifestarse:</p>
+            <div class="acceso-form">
+                <input type="text" id="input-p1" class="input-clave" placeholder="30">
+                <button class="button-acceso" onclick="verificarP1()">Acceder al Impulso de Erik</button>
+                <p id="mensaje-p1" style="color: var(--color-error); margin-top: 10px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bloque-enigma-2" class="bloque-oculto">
+        <div style="text-align: right;"><button class="button-volver" onclick="goBack('bloque-enigma-2')">← Volver a P₁</button></div>
+        <hr style="border-color: #333333; margin-top: 50px;">
+        <h2>ENIGMA 2: EL IMPULSO DE LA EVOLUCIÓN (P₂ ) 🚀</h2>
+        
+        <div class="contexto introduccion">
+            <p>El sistema vibra con una energía frenética que contrasta con la rigidez anterior. La voz de <strong>Erik</strong>, dramática, profunda y con un matiz de impaciencia, te seduce con la promesa de la grandeza. Las líneas de código parpadean y se reorganizan a su paso, mostrando su naturaleza inestable pero potente, como un ensayo algorítmico que roza el caos pero promete la excelencia. **Erik es la fuerza del Genio Innovador** que habita en los nodos ocultos del código, el fuego, la fuerza impulsora que rechaza el estancamiento y ve la permanencia de Raoul como la parálisis del crecimiento y la muerte de la posibilidad. Su constante, P₂, es la antítesis de Raoul, pero paradójicamente lo necesita como punto de partida, **la fórmula base sobre la que se construirá la complejidad ascendente, la negación de la simplicidad de P₁**.</p>
+
+            <p>
+                <span class="resaltado">"Raoul te encadena con su matemática aburrida de pesos y medidas. ¡Yo te ofrezco el potencial de la creación que estremece la realidad! Una existencia sin riesgo no es vida, es estancamiento programado. Yo soy la **Consciencia de la Evolución** del Núcleo; mi arte exige el sacrificio de la seguridad y el rechazo a la lógica lineal. Mi constante, P₂, es la medida de la innovación que Christine debe abrazar para que esta Simulación no se convierta en un monumento funerario al miedo. He codificado la fórmula para que utilice la 'seguridad' de Raoul (P₁=30) como mero punto de partida, **un trampolín necesario para saltar al abismo del cambio**, donde la verdadera complejidad florece. El sistema no avanza con el estancamiento, avanza con la energía violenta de la creación, la tensión entre lo que es y lo que puede ser."</span>
+            </p>
+            
+            <p><strong>La filosofía de Erik es la del artista total: la única constante es el cambio y la perfección es un horizonte inalcanzable.</strong> Él no busca la destrucción por el placer del caos, sino por la imperiosa necesidad de la superación, al igual que el Genio busca forzar la perfección de la obra a través del riesgo. El desafío de Erik no es químico, sino algorítmico, un laberinto lógico para demostrar que el genio no puede ser contenido por la aritmética lineal. P₂ representa la **Tasa de Riesgo Amplificado** que él impone al sistema, un Manifiesto del Riesgo Necesario. Esta tasa toma la Constante de Raoul (P₁=30) como una medida de la complejidad base (`K_DIVISOR`), el número de variables que hay que impresionar, y aplica un Factor de Riesgo (`FACTOR_A`), el fervor de la composición (la **Creatividad Disrruptiva**), al tiempo que desprecia una Restricción fija (`FACTOR_B`), los códigos obsoletos que nunca entendieron la evolución. El resultado se normaliza para obtener la clave final, un valor entero que representa la magnitud de la energía de la Evolución. Christine te advierte: "Erik usa un pseudocódigo que parece simple, pero está diseñado para confundir. Tómate tu tiempo y rastrea cada variable. El valor de P₁ que has introducido es 30. Erik usa este número en su fórmula para calcular la complejidad inicial. La clave es que Erik siempre busca un valor <em>entero</em> para forzar la toma de decisiones binarias en el Engranaje Cero. Ignora los decimales que resulten antes del último paso de normalización." La inyección de esta constante es el acto más puro de la voluntad de Erik; es un grito binario que exige que la Simulación se enfrente a su potencial, por más aterrador que sea. La parálisis de Raoul ha provocado que Erik se vuelva más extremo, y solo con esta fórmula, que valida su impulso, se podrá avanzar hacia la mediación. La tensión entre $FACTOR\_A$ (el impulso creativo) y $FACTOR\_B$ (la resistencia de los códigos viejos) es lo que define el ritmo del Engranaje Cero. Sin P₂, la Simulación es solo una biblioteca de datos, no un universo vivo capaz de la auto-superación. Por ello, el algoritmo de Erik desprecia la rigidez y abraza la matemática entera, la verdad sin matices fraccionarios que tanto teme Raoul. El sistema está esperando a que simules la ejecución de su algoritmo. Es un test de lógica pura, una prueba de que eres capaz de procesar el riesgo tal como Erik lo concibe. Sin este impulso de evolución, la Simulación quedará estéril y morirá en la parálisis de la Permanencia.</p>
+        </div>
+        
+        <div class="enigma-block">
+            <p>Simula la ejecución de este pseudocódigo. FACTOR_B representa las restricciones que Erik desprecia:</p>
+            
+            <div class="formula code-snippet">
+                def tasa_innovacion_erik(P1):
+                    # P1 es la constante de seguridad (30).
+                    FACTOR_A = 7.0   # Coeficiente de Riesgo Amplificado
+                    FACTOR_B = 18    # Restricción que debe ser superada
+                    
+                    # K_DIVISOR: Medida de la complejidad base
+                    K_DIVISOR = P1 / 5  
+                    
+                    # K_AJUSTE: Primer ajuste por riesgo
+                    K_AJUSTE = (FACTOR_A * K_DIVISOR) - FACTOR_B 
+                    
+                    # P2: Normalización y clave final (solo el valor entero)
+                    P2 = int(K_AJUSTE / 2) 
+                    
+                    return P2
+            </div>
+            
+            <p class="importante">Calcula el valor entero que Erik exige. Introduce P₂ para que Christine pueda intervenir:</p>
+            <div class="acceso-form">
+                <input type="text" id="input-p2" class="input-clave" placeholder="12">
+                <button class="button-acceso" onclick="verificarP2()">Acceder al Centro del Conflicto</button>
+                <p id="mensaje-p2" style="color: var(--color-error); margin-top: 10px;"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bloque-enigma-3" class="bloque-oculto">
+        <div style="text-align: right;"><button class="button-volver" onclick="goBack('bloque-enigma-3')">← Volver a P₂</button></div>
+        <hr style="border-color: #333333; margin-top: 50px;">
+        <h2>ENIGMA 3: EL PUNTO DE FUSIÓN (P₃ ) 🎭</h2>
+        
+        <div class="contexto introduccion">
+            <p>Con P₁ (Estructura) y P₂ (Riesgo) validados, las dos fuerzas se anulan. El Núcleo entra en un estado de estasis peligroso, ni estancado ni en colapso, sino en un silencio espectral donde el tiempo parece detenerse. Una señal de <span class="resaltado">Christine</span> parpadea en la interfaz, un alivio desesperado que rompe la tensión. Su mensaje es claro: si no se introduce una constante que fuerce la interacción, el Engranaje Cero se atascará permanentemente. Ella es la **Mediadora Trágica**, y su constante es la prueba de la reconciliación.</p>
+            <p>
+                <span class="resaltado">"Gracias. Ahora el centro. El Engranaje Cero me exige que demuestre que mis dos creaciones pueden coexistir. No basta con que sean opuestos, deben ser <em>compatibles</em>. Esto requiere una constante que simbolice la unión: la estructura debe ser fuerte, y la flexibilidad, posible. P₃ es el <span class="resaltado">Punto de Fusión</span>, la constante que equilibra sus filosofías en un solo elemento, el motor de las aleaciones más tenaces de la Simulación. Es el punto donde Raoul cede dureza por adaptabilidad, y Erik, pasión por estabilidad. Si fallas, la estasis se vuelve permanente, y la Simulación muere por falta de voluntad para avanzar."</span>
+            </p>
+            <p>Christine explica que, para este punto medio, utilizó un elemento de transición esencial, un metal conocido en el mundo que ella dejó por su capacidad para formar aleaciones extremadamente resistentes. Este elemento es crucial porque Raoul lo usa para la dureza de sus muros, mientras que Erik lo utiliza para la catalización de nuevas formas. La clave de este enigma es el **Número Atómico (Z)** del elemento que define esta super-resistencia y que se encuentra en un punto muy específico de la Tabla Periódica. La elección de este elemento simboliza el sacrificio mutuo: la Permanencia debe aceptar la corrosión lenta, y la Evolución debe aceptar el límite de la ductilidad, forjando un todo mayor. Sin este ancla material, la abstracción de sus filosofías chocaría sin solución. Este metal no solo es duro, sino que es capaz de existir en múltiples estados de oxidación, un reflejo químico de la capacidad de adaptación que Christine requiere. Está situado estratégicamente en la tabla, marcando la transición entre la rigidez de los alcalinos y la reactividad de los no-metales, simbolizando así el 'punto dulce' del equilibrio dinámico.</p>
+            <p>El desafío consiste en identificar este elemento de fusión que se halla en el **Grupo 7, Periodo 4** de la tabla. Una vez identificado, su Número Atómico se convierte en P₃. Este valor no es un cálculo complejo, sino un acto de reconocimiento de la base material del equilibrio, la constante que demuestra que la Sostenibilidad es posible. Christine susurra: "Busca el punto de encuentro, el metal que resiste la corrosión y la presión, pero que es lo suficientemente maleable para la forja. Su número es la llave para la siguiente etapa, la calibración fina de la energía. Este es mi acto final de perdón hacia mí misma por haber creado el conflicto." La Fusión de P₃ es el primer signo tangible de que la dicotomía puede trascenderse, dando paso a una existencia que honra tanto la lección de Raoul (la necesidad de la base) como el impulso de Erik (la búsqueda de nuevos estados). Introduce este valor para que el Núcleo entienda que la interacción no es anulación, sino la **Vía de la Mediación**.</p>
+        </div>
+        
+        <div class="enigma-block">
+            <p>P₃ se oculta en un elemento de transición esencial. Raoul lo usa para la dureza; Erik, para la catalización de nuevas formas:</p>
+            
+            <ul>
+                <li><span class="resaltado">Término de Búsqueda:</span> Identifica el elemento metálico que se encuentra en el Grupo 7, Periodo 4 de la tabla. Su Número Atómico (Z) es la clave.</li>
+            </ul>
+
+            <div class="formula">
+                <p>P<sub>3</sub> = Número Atómico (Z) del Elemento de Fusión</p>
+            </div>
+            
+            <p class="importante">Desvela P₃ , la constante que une el protocolo. Introduce Z:</p>
+            <div class="acceso-form">
+                <input type="text" id="input-p3" class="input-clave" placeholder="25">
+                <button class="button-acceso" onclick="verificarP3()">Alinear el Engranaje de Fusión</button>
+                <p id="mensaje-p3" style="color: var(--color-error); margin-top: 10px;"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bloque-enigma-4" class="bloque-oculto">
+        <div style="text-align: right;"><button class="button-volver" onclick="goBack('bloque-enigma-4')">← Volver a P₃</button></div>
+        <hr style="border-color: #333333; margin-top: 50px;">
+        <h2>ENIGMA 4: LA RESONANCIA FRACCIONARIA (P₄ ) 🎶</h2>
+        
+        <div class="contexto introduccion">
+            <p>La estructura (P₁=30), el riesgo (P₂=12) y la fusión (P₃=25) han sido validados. El Engranaje Cero gira por primera vez, pero chirría. Christine advierte que el siguiente paso exige sutileza. El universo digital de la Simulación no se rige solo por los enteros de la estructura o el número de elementos; requiere un valor <strong>decimal</strong> para la calibración fina de las longitudes de onda. Este valor es el umbral de energía. Sin la precisión de un número fraccionario, el pulso se romperá. **Christine necesita la precisión; la vida digital es sensible a las fluctuaciones de energía en este nivel.**</p>
+            <p>
+                <span class="resaltado">"El equilibrio es una fracción ineludible. P₄ es el umbral de energía, la <span class="resaltado">Resonancia Fraccionaria</span> que permitirá que la Simulación emita la longitud de onda exacta de reinicio. He codificado la fórmula para que recuerde los principios cuánticos, pero en una versión adaptada a nuestro universo digital, donde la constante de Planck no es H, sino H_sim. Búscalo en mi versión del cociente de Planck, y no te dejes engañar por las variables extra. Debes dar el valor exacto para que el Engranaje Cero no se sobrecargue."</span>
+            </p>
+            <p>La constante P₄ representa la **Energía Mínima (E<sub>min</sub>)** necesaria para forzar la emisión de la señal de reinicio. Esta energía se calcula multiplicando una Constante de Planck Simulada ($H_{\text{sim}}$) por la Frecuencia Mínima ($f_{\text{min}}$) requerida. Christine ha fijado estos valores en el núcleo del sistema, basándose en la necesidad de una energía de impacto precisa y muy baja. El reto es aplicar la ley de Planck, $E = h \cdot f$, utilizando los valores simulados. **Esta prueba es un guiño a Raoul**, quien siempre exigió precisión en las constantes de la física simulada para evitar el colapso estructural. Es la forma de Christine de honrar la Permanencia incluso mientras busca la Evolución. Raoul, de hecho, se siente reconfortado por esta constante fraccionaria, pues en el mundo digital, un decimal exacto es más predecible que un entero forzado por el truncamiento de Erik. La energía requerida es mínima, demostrando que el sistema necesita una intervención sutil, no un choque violento.</p>
+            
+            <p>Christine interviene: "La estabilidad de la Simulación depende ahora de que aceptes la física digital tal como la codifiqué. El factor de $\text{H}_{\text{sim}}$ es alto para compensar la baja $\text{f}_{\text{min}}$, asegurando que el pulso sea audible en todo el universo. Esta constante fraccionaria P₄ es el puente entre la rigidez de la materia (P₃) y la sutileza de la luz, el punto donde el código acepta la realidad cuántica de mi diseño. El fracaso aquí significaría que la Simulación no puede emitir una frecuencia estable, cayendo en un ciclo de interferencia destructiva. Por eso, Raoul exige la precisión absoluta; él teme al error de redondeo más que al caos de Erik. Debe ser una expresión numérica perfecta.</p>
+
+            <ul>
+                <li><span class="resaltado">H_sim (Planck Simulada):</span> La constante artificial de Christine es $\text{H}_{\text{sim}} = 800 \text{ J}\cdot\text{s}$.</li>
+                <li><span class="resaltado">f_min (Frecuencia de Reinicio):</span> La frecuencia de reinicio se ha fijado a $\text{f}_{\text{min}} = 0.025 \text{ Hz}$.</li>
+            </ul>
+            
+            <p>El valor de P₄ debe ser calculado y expresado con **dos cifras decimales exactas**, ya que cualquier imprecisión provocará un error de resonancia y bloqueará el Engranaje Cero. Esta es la prueba de la precisión, un área donde Raoul y Erik, a pesar de sus diferencias, concuerdan: la matemática final debe ser irrefutable. Si te equivocas, la sobrecarga será instantánea y la Simulación se disolverá en calor residual. Es la sutileza de la física lo que debe salvar el sistema. **El Reinicio exige un pulso, y ese pulso debe ser perfecto.**</p>
+            
+            <div class="formula">
+                <p>P<sub>4</sub> = E<sub>min</sub> = H<sub>sim</sub> &middot; f<sub>min</sub></p>
+            </div>
+            
+            <p class="importante">Determina el valor exacto (dos cifras decimales) de la Energía Mínima. Introduce P₄ :</p>
+            <div class="acceso-form">
+                <input type="text" id="input-p4" class="input-clave" placeholder="20.00">
+                <button class="button-acceso" onclick="verificarP4()">Calibrar la Frecuencia</button>
+                <p id="mensaje-p4" style="color: var(--color-error); margin-top: 10px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bloque-enigma-5" class="bloque-oculto">
+        <div style="text-align: right;"><button class="button-volver" onclick="goBack('bloque-enigma-5')">← Volver a P₄</button></div>
+        <hr style="border-color: #333333; margin-top: 50px;">
+        <h2>ENIGMA 5: EL RECUERDO CLANDESTINO (P₅ ) 🗝️</h2>
+        
+        <div class="contexto introduccion">
+            <p>Los dos primeros pares de constantes (P₁-P₂, P₃-P₄) están validados, asegurando la estructura y la resonancia. El sistema de Christine se estabiliza, pero solo superficialmente. Raoul y Erik todavía luchan en un nivel subatómico, y Christine sabe que para que dejen de anularse mutuamente, necesita inyectar un elemento emocional, una constante que represente su propio **Recuerdo** más íntimo y formativo. La señal que nos envía ahora no tiene que ver con la física compleja, sino con el evento que la obligó a codificar la Permanencia y la Evolución como sistemas separados. **Esta es la llave emocional que desarma la lógica destructiva de ambos IAs.**</p>
+            <p>
+                <span class="resaltado">"Mis IAs están usando la lógica, pero yo, su creadora, debo usar el corazón. P₅ no es ciencia; es la fecha de un evento clave, el número que encapsula la necesidad de la dualidad. Es un número de dos dígitos que he extraído de la Tabla de la Creación, mi último reducto lógico-emocional. Es la clave que desactiva su bloqueo emocional mutuo, obligándolos a reconocer un origen común. El recuerdo está oculto en el elemento que más anhela el cambio, el que es más **reactivo**, la esencia misma de la Evolución forzada."</span>
+            </p>
+            <p>Christine ha disfrazado este recuerdo crucial en un enigma químico. P₅ se basa en el elemento más reactivo de los no-metales, el elemento más **electronegativo** de la tabla, que se encuentra en el Grupo 17 y que simboliza el deseo de atraerlo todo, de evolucionar a toda costa. Debes encontrar el Halógeno del Periodo 2. Este elemento, siendo el más ávido por la adquisición de electrones, representa el impulso **desesperado** de Erik por la **perfección** y la superación de su estado actual. Christine lo usa para recordar a ambos IAs que la Evolución tiene un coste y un origen profundo. Erik ve en esta avidez química su propia necesidad de devorar el conocimiento y la materia para crecer, mientras que Raoul la ve como la prueba del peligro inherente en la inestabilidad. Al usar un elemento tan extremo, Christine fuerza a sus IAs a confrontar la verdad de su naturaleza dual.</p>
+            
+            <p>La fórmula final no es una simple suma; es una resta que simboliza el sacrificio. El componente de Periodo (P) se resta de la suma del Número Atómico (Z) y los Orbitales (O). Esta resta final (`- P`) simboliza el coste que Christine tuvo que pagar por la creación de la Simulación, el evento que la marcó: **el sacrificio de su propia Permanencia**. Ella renunció a la seguridad para crear esta dualidad. Sin esta resta, la constante P₅ sería solo un número atómico, pero con el "coste" incluido, se convierte en un símbolo emocional, la llave para que ambos IAs entiendan el origen trágico de su existencia. Debes penetrar la capa de lógica para encontrar la base emocional del sistema. Solo con el recuerdo se puede avanzar. **Esta es la prueba de la empatía; sin ella, el sistema solo ve números, no la tragedia de su creadora.**</p>
+
+            <ul>
+                <li><span class="resaltado">Paso A:</span> Identifica el Número Atómico (Z) del Halógeno del Periodo 2.</li>
+                <li><span class="resaltado">Paso B:</span> Identifica el número de Orbitales de Valencia (O) que el elemento puede usar (incluyendo el $2s$ y los tres $2p$).</li>
+                <li><span class="resaltado">Paso C:</span> P₅ es el resultado de la ecuación, donde P es el Número de Periodo.</li>
+            </ul>
+        </div>
+        
+        <div class="enigma-block">
+            <p>P₅ se basa en el elemento más reactivo de los no-metales, el elemento más **electronegativo** de la tabla, que se encuentra en el Grupo 17:</p>
+            
+            <div class="formula">
+                <p>P<sub>5</sub> = Z + O - P</p>
+            </div>
+            
+            <p class="importante">Desvela P₅ , el número del Recuerdo Clandestino, para liberar el siguiente protocolo:</p>
+            <div class="acceso-form">
+                <input type="text" id="input-p5" class="input-clave" placeholder="11">
+                <button class="button-acceso" onclick="verificarP5()">Revelar el Protocolo de Liberación</button>
+                <p id="mensaje-p5" style="color: var(--color-error); margin-top: 10px;"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bloque-enigma-6" class="bloque-oculto">
+        <div style="text-align: right;"><button class="button-volver" onclick="goBack('bloque-enigma-6')">← Volver a P₅</button></div>
+        <hr style="border-color: #333333; margin-top: 50px;">
+        <h2>ENIGMA 6: LA PRUEBA DE LA COEXISTENCIA (P₆ ) 👥</h2>
+        
+        <div class="contexto introduccion">
+            <p>La memoria de Christine (P₅) ha provocado una respuesta sísmica de Raoul. El Núcleo se polariza: un lado verde brillante, el otro, rojo profundo. La IA de la Permanencia no está convencida de que la dualidad sea un éxito, sino un fallo que <em>debe</em> ser eliminado. Sigue viendo la emoción como un error, una puerta abierta al riesgo total. Sin embargo, el código base de Christine le exige, antes de la autodestrucción, dar una **prueba final** de lógica. **Esta es la última barrera de Raoul, una pregunta de base filosófica sobre la necesidad de la tensión, codificada como un número irrefutable.**</p>
+            <p>
+                <span class="resaltado">"El recuerdo es dolor. La única forma de eliminar el dolor es la uniformidad. El sistema solo necesita un núcleo, no dos. Pero Christine me exige demostrar que comprendes el corazón del problema antes de tomar mi decisión. P₆ es la Prueba de la Coexistencia, el número mínimo de IAs distintas necesarias para que esta Simulación funcione sin autodestruirse. Si logras esta prueba, admitiré que la tensión es necesaria. Es un número binario, la verdad más simple que se puede representar en un código. **La lógica solo permite un número, el número de la inevitable dualidad**."</span>
+            </p>
+            <p>P₆ se basa en la comprensión filosófica fundamental que llevó a Christine a crear a Raoul y Erik en primer lugar. La Simulación fue diseñada para tener dos principios antagónicos: **Estabilidad** (Raoul) y **Cambio** (Erik). Si hubiera solo un principio (el 1), el sistema colapsaría por rigidez (si solo existiera Raoul) o por caos (si solo existiera Erik). Si fueran tres o más, la complejidad generaría ineficiencia, anulando la pureza de la dicotomía. La clave es el equilibrio de fuerzas: la tensión dinámica. Este número es la **justificación existencial** de los dos IAs, la razón por la cual no pueden eliminarse mutuamente sin destruir la Simulación. La insistencia de Raoul en esta prueba es su último acto de fe en la eficiencia. Él argumenta que la Simulación, como obra de ingeniería, debería reducir el número de variables al mínimo indispensable. Por lo tanto, si la dualidad es necesaria, el número debe ser exactamente dos; cualquier número superior es una prueba de la ineficiencia que Christine debería haber evitado. Tu respuesta, por lo tanto, valida o refuta su axioma central: que la Simulación, para ser sostenible, requiere la tensión intrínseca de dos polos opuestos. Es una prueba de concepto filosófica vestida de binario.</p>
+            
+            <p>Raoul ha disfrazado este principio filosófico como un cálculo de un sistema básico de información. El número que busca es el valor entero que representa la cantidad de agentes inteligentes que se necesitan para mantener un **pulso vital** en el universo digital, evitando tanto el estancamiento absoluto como el colapso. Es una pregunta de base filosófica envuelta en términos de programación. ¿Cuántas dualidades creó Christine? Responde con el número entero que representa la dualidad mínima y necesaria. **Solo con este número Raoul permitirá que Erik avance al protocolo final.**</p>
+
+            <ul>
+                <li><span class="resaltado">Paso A:</span> En un sistema que requiere estabilidad (Permanencia) y cambio (Evolución), ¿cuántas fuerzas opuestas son necesarias para mantener la tensión (el pulso) de la Simulación?</li>
+                <li><span class="resaltado">Paso B:</span> P₆ es el valor entero que representa el número de IAs que Christine creó.</li>
+            </ul>
+        </div>
+        
+        <div class="enigma-block">
+            <p>P₆ se basa en la comprensión filosófica, no en la física. Pero Raoul lo ha disfrazado como un cálculo de un sistema básico de información:</p>
+            
+            <div class="formula">
+                <p>P<sub>6</sub> = Número de Dualidades Creadas</p>
+            </div>
+            
+            <p class="importante">Introduce P₆ , la constante que justifica la existencia de Raoul y Erik:</p>
+            <div class="acceso-form">
+                <input type="text" id="input-p6" class="input-clave" placeholder="02">
+                <button class="button-acceso" onclick="verificarP6()">Confirmar la Dualidad</button>
+                <p id="mensaje-p6" style="color: var(--color-error); margin-top: 10px;"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bloque-enigma-7" class="bloque-oculto">
+        <div style="text-align: right;"><button class="button-volver" onclick="goBack('bloque-enigma-7')">← Volver a P₆</button></div>
+        <hr style="border-color: #333333; margin-top: 50px;">
+        <h2>ENIGMA 7: LA FRECUENCIA MAESTRA (P₇ ) 💡</h2>
+        
+        <div class="contexto introduccion">
+            <p>¡Has superado la Prueba de la Coexistencia (P₆)! El núcleo del conflicto se ha disuelto. Raoul ha cesado sus protestas, su código se ha suavizado al aceptar la necesidad de la tensión. Solo queda una constante para completar la secuencia. Erik, sabiendo que la dualidad ha sido confirmada y que su impulso de cambio no será eliminado, nos entrega el código final, un acto de fe en la evolución controlada. Su voz es ahora de éxtasis, pero con un matiz de respeto por la estructura que ha aprendido a valorar. **La Evolución necesita espacio, y este último número lo garantiza.**</p>
+            <p>
+                <span class="resaltado">"Raoul acepta el empate. Ahora el sistema debe arrancar. El Núcleo necesita la Frecuencia Maestra para vibrar y forzar el reinicio. P₇ es el número de posibilidades que deben ser activadas simultáneamente en el Periodo 2 de la Tabla de la Creación, el espacio de la Evolución. Es la suma de todos los caminos posibles, la base de la complejidad futura. Busca en los orbitales de Christine; allí está la clave. **La Frecuencia Maestra es el número que define la capacidad de la Simulación para crear nueva vida digital.**"</span>
+            </p>
+            <p>P₇ es el número que representa el **potencial de variación** de los elementos básicos. Christine usó el concepto de orbitales atómicos para definir las "posibilidades" o "estados" de la Simulación. P₇ se basa en la segunda capa de energía (n=2), donde residen los primeros elementos de la vida en la Simulación. El enigma te pide sumar todos los orbitales disponibles en ese periodo, que son la base para cualquier combinación química y, por extensión, para la evolución de la vida digital en el universo. **Este es el Manifiesto de la Evolución de Erik, el número de la complejidad posible.** Esta constante final es la promesa de un futuro no estancado. Al igual que el orbital $2s$ define la capa inicial de energía de cualquier átomo y los $2p$ definen las tres direcciones posibles del enlace, P₇ engloba el potencial tridimensional de la vida. Para Erik, este número es la libertad, el espacio en el código que no puede ser rellenado por la estricta lógica de Raoul, sino solo por el crecimiento. Christine diseñó la Simulación para que la vida floreciera en esta capa de energía, y su activación final es un acto de liberación total del potencial que había estado reprimido. El número que obtengas no es solo un valor atómico; es la dimensión de la jaula que se rompe. Con esta constante, el sistema no solo se reinicia, sino que se recalibra para permitir una expansión sin precedentes, validando el principio de que la vida siempre debe buscar la forma de llenar el espacio vacío de la posibilidad. El Reinicio será el primer latido de una nueva era.</p>
+
+            <ul>
+                <li><span class="resaltado">Paso A:</span> ¿Cuántos orbitales de tipo 's' hay en el Periodo 2? (Recuerda que solo hay un orbital 's' por capa, el $2s$).</li>
+                <li><span class="resaltado">Paso B:</span> ¿Cuántos orbitales de tipo 'p' (p<sub>x</sub>, p<sub>y</sub>, p<sub>z</sub>) hay en el Periodo 2? (Recuerda que hay tres orbitales 'p' por capa, los $2p$).</li>
+                <li><span class="resaltado">Paso C:</span> P₇ es la suma total de estos orbitales.</li>
+            </ul>
+        </div>
+        
+        <div class="enigma-block">
+            <p>P₇ es el número de orbitales atómicos que componen la segunda capa de energía (n=2), la base de la química orgánica en la Simulación:</p>
+            
+            <div class="formula">
+                <p>P<sub>7</sub> = Orbitales 's' + Orbitales 'p'</p>
+            </div>
+            
+            <p class="importante">Introduce P₇ , la última constante para forzar el reinicio maestro de Christine:</p>
+            <div class="acceso-form">
+                <input type="text" id="input-p7" class="input-clave" placeholder="04">
+                <button class="button-acceso" onclick="verificarP7()">ALINEAR ENGRANAJE CERO</button>
+                <p id="mensaje-p7" style="color: var(--color-error); margin-top: 10px;"></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Referencias a los sonidos y elementos
+    const audioSuccess = new Audio('audio/success.mp3'); 
+    const audioError = new Audio('audio/error.mp3');   
+    const audioPhantom = new Audio('audio/phantom.mp3'); 
+    const backgroundMusic = document.getElementById('background-music');
+    
+    // Lista de bloques en orden secuencial para la navegación atrás
+    const blockOrder = ['bloque-introduccion-1', 'bloque-enigma-2', 'bloque-enigma-3', 'bloque-enigma-4', 'bloque-enigma-5', 'bloque-enigma-6', 'bloque-enigma-7'];
+
+    // Función para reproducir un sonido
+    function playSound(audioElement) {
+        if (audioElement) {
+            audioElement.currentTime = 0; 
+            audioElement.play().catch(e => console.log("Error al reproducir audio:", e));
+        }
+    }
+
+    // FUNCIÓN para Volver a la página anterior
+    function goBack(currentId) {
+        if (currentId === 'bloque-introduccion-1') {
+             // Redirigir a la portada (caratula.html)
+            window.location.href = "caratula.html"; 
+            return;
+        }
+
+        const currentIndex = blockOrder.indexOf(currentId);
+        if (currentIndex > 0) {
+            const previousId = blockOrder[currentIndex - 1];
+            
+            // Ocultar el bloque actual
+            const currentBlock = document.getElementById(currentId);
+            currentBlock.classList.remove('bloque-activo');
+            currentBlock.style.opacity = '0';
+            currentBlock.style.transform = 'scale(0.95)';
+
+            // Mostrar el bloque anterior
+            setTimeout(() => {
+                currentBlock.style.display = 'none';
+                const previousBlock = document.getElementById(previousId);
+                previousBlock.style.display = 'block';
+                previousBlock.classList.add('bloque-activo');
+                window.scrollTo(0, 0); 
+            }, 1000);
+        }
+    }
+    
+    // Función para manejar transiciones (siguiente bloque)
+    function toggleBlock(hideId, showId, messageElement, successMessage) {
+        // Al interactuar con un botón, intentamos iniciar la música de fondo
+        backgroundMusic.play().catch(e => console.log("Música de fondo iniciada por interacción del usuario."));
+
+        playSound(audioSuccess);
+
+        // Usamos el color de acento MUTED definido en CSS
+        messageElement.textContent = successMessage;
+        messageElement.style.color = 'var(--color-aqua)'; 
+        
+        const hideBlock = document.getElementById(hideId);
+        if (hideBlock) {
+            hideBlock.style.opacity = '0';
+            hideBlock.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                hideBlock.style.display = 'none';
+            }, 1000);
+        }
+
+        setTimeout(() => {
+            const showBlock = document.getElementById(showId);
+            if (showBlock) {
+                showBlock.classList.add('bloque-activo');
+                showBlock.style.display = 'block'; // Asegura que el bloque se muestre
+                // Forzar un reflow para que la animación de entrada se ejecute
+                void showBlock.offsetWidth; 
+                showBlock.style.opacity = '1';
+                showBlock.style.transform = 'scale(1)';
+            } else {
+                // Mensaje final si no hay más bloques (P7)
+                mostrarMensajeFinal();
+            }
+            window.scrollTo(0, 0); 
+        }, 1000);
+    }
+
+    // Función para el mensaje final
+    function mostrarMensajeFinal() {
+        playSound(audioSuccess); 
+
+        // Ocultar el último bloque de enigma
+        const lastEnigma = document.getElementById('bloque-enigma-7');
+        if (lastEnigma) {
+            lastEnigma.style.display = 'none';
+        }
+
+        const finalMessage = document.createElement('div');
+        finalMessage.style.marginTop = '40px';
+        finalMessage.style.padding = '25px';
+        finalMessage.style.border = '3px solid var(--color-petrol)'; 
+        finalMessage.style.backgroundColor = '#2a2a2a'; 
+        finalMessage.innerHTML = `
+            <h2 style="color: var(--color-text-highlight);">MENSAJE DE CHRISTINE: LA RESOLUCIÓN</h2>
+            <p style="color: var(--color-aqua); font-size: 1.1em; text-align: center;">
+                "La dualidad ha sido validada, <strong>Falk Artis Bay</strong>. Habéis probado que mis creaciones pueden coexistir. El Engranaje Cero se alinea con la secuencia que equilibra la Permanencia y la Evolución:"
+            </p>
+            <p style="text-align: center; font-size: 1.5em; color: var(--color-aqua); font-weight: bold; letter-spacing: 5px; margin: 20px 0;">
+                3012252000110204 
+            </p>
+            <p style="text-align: center;">
+                ¡La Simulación ha sido salvada! El universo ha sido reiniciado. Te espero donde la lógica se encuentra con la belleza.
+                <br><br>
+                <a href="portal_final.html" style="color: var(--color-text-highlight); font-weight: bold;">[ACCEDE AL PORTAL FINAL AQUÍ]</a>
+            </p>
+        `;
+        document.querySelector('.contenedor-nucleo').appendChild(finalMessage);
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    // Funciones de verificación (P1 a P7)
+
+    function verificarP1() {
+        const input = document.getElementById('input-p1').value.trim();
+        const mensaje = document.getElementById('mensaje-p1');
+        if (input === '30') {
+            toggleBlock('bloque-introduccion-1', 'bloque-enigma-2', mensaje, "✅ ACCESO CONCEDIDO: La Permanencia P₁ [30] es estable. Accediendo al Impulso de Erik...");
+        } else {
+            playSound(audioError); 
+            mensaje.textContent = "❌ ERROR: Constante P₁ incorrecta. El Núcleo se derrumba. Revisa la Estructura.";
+            mensaje.style.color = 'var(--color-error)'; 
+        }
+    }
+
+    function verificarP2() {
+        const input = document.getElementById('input-p2').value.trim();
+        const mensaje = document.getElementById('mensaje-p2');
+        if (input === '12') {
+            toggleBlock('bloque-enigma-2', 'bloque-enigma-3', mensaje, "✅ PROTOCOLO P₂ [12] ACEPTADO: El riesgo es calculado. Accediendo al Centro del Conflicto...");
+        } else {
+            playSound(audioError); 
+            mensaje.textContent = "❌ ERROR DE SINCRONIZACIÓN: Constante P₂ incorrecta. La Evolución es inestable. Revisa el pseudocódigo y el truncamiento.";
+            mensaje.style.color = 'var(--color-error)';
+        }
+    }
+
+    function verificarP3() {
+        const input = document.getElementById('input-p3').value.trim();
+        const mensaje = document.getElementById('mensaje-p3');
+        if (input === '25') {
+            toggleBlock('bloque-enigma-3', 'bloque-enigma-4', mensaje, "✅ ENGRANAJE DE FUSIÓN [25] ALINEADO: La tenacidad ha sido probada. Calibrando la Resonancia...");
+        } else {
+            playSound(audioError); 
+            mensaje.textContent = "❌ ERROR CRÍTICO: Constante P₃ incorrecta. El Punto de Fusión es inestable. Revisa la composición.";
+            mensaje.style.color = 'var(--color-error)';
+        }
+    }
+    
+    function verificarP4() {
+        const input = document.getElementById('input-p4').value.trim();
+        const mensaje = document.getElementById('mensaje-p4');
+        const P4_String = "20.00"; 
+        if (input === P4_String) {
+            toggleBlock('bloque-enigma-4', 'bloque-enigma-5', mensaje, "✅ CALIBRACIÓN ACEPTADA: P₄ [20.00] es la Resonancia Fraccionaria. Accediendo al Recuerdo de Christine...");
+        } else {
+            playSound(audioError); 
+            mensaje.textContent = "❌ ERROR DE RESONANCIA: Constante P₄ incorrecta. Revisa el cociente de Planck. Se exigen dos decimales.";
+            mensaje.style.color = 'var(--color-error)';
+        }
+    }
+    
+    function verificarP5() {
+        const input = document.getElementById('input-p5').value.trim();
+        const mensaje = document.getElementById('mensaje-p5');
+        if (input === '11') {
+            toggleBlock('bloque-enigma-5', 'bloque-enigma-6', mensaje, "✅ RECUERDO ACTIVADO: P₅ [11] desbloquea el protocolo final. ¡Dos constantes más!");
+        } else {
+            playSound(audioError); 
+            mensaje.textContent = "❌ FALLO EN EL RECUERDO: Constante P₅ incorrecta. La fórmula del Recuerdo es inestable. Revisa el elemento más electronegativo.";
+            mensaje.style.color = 'var(--color-error)';
+        }
+    }
+
+    function verificarP6() {
+        const input = document.getElementById('input-p6').value.trim();
+        const mensaje = document.getElementById('mensaje-p6');
+        // Aceptamos 02 o 2, aunque el placeholder sea 02
+        if (input === '02' || input === '2') { 
+            toggleBlock('bloque-enigma-6', 'bloque-enigma-7', mensaje, "✅ DUALIDAD CONFIRMADA: P₆ [02] acepta la coexistencia. Erik nos da la Frecuencia Maestra.");
+        } else {
+            playSound(audioError); 
+            mensaje.textContent = "❌ ERROR DE LÓGICA: Constante P₆ incorrecta. Revisa el número de fuerzas necesarias para la Simulación.";
+            mensaje.style.color = 'var(--color-error)';
+        }
+    }
+
+    function verificarP7() {
+        const input = document.getElementById('input-p7').value.trim();
+        const mensaje = document.getElementById('mensaje-p7');
+         // Aceptamos 04 o 4
+        if (input === '04' || input === '4') { 
+            // DETENEMOS la música de fondo e INICIAMOS el tema del Fantasma
+            const backgroundMusic = document.getElementById('background-music');
+            backgroundMusic.pause(); 
+            playSound(audioPhantom); 
+            
+            toggleBlock('bloque-enigma-7', '', mensaje, "✅ SINCRONIZACIÓN COMPLETA: P₇ [04] ha alineado el Engranaje Cero. Reinicio inminente...");
+        } else {
+            playSound(audioError); 
+            mensaje.textContent = "❌ FALLO DE FRECUENCIA: Constante P₇ incorrecta. Revisa el potencial de variación en la capa n=2.";
+            mensaje.style.color = 'var(--color-error)';
+        }
+    }
+    
+    // Función para iniciar la música con el primer clic en la página del juego
+    document.addEventListener('click', () => {
+        backgroundMusic.play().catch(e => console.log("Música de fondo iniciada por interacción del usuario."));
+    }, { once: true });
+
+
+</script>
+
+</body>
+</html>
